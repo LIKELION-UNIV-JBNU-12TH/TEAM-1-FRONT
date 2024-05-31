@@ -57,6 +57,7 @@
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
+            box-sizing: border-box;
         }
         table {
             width: 100%;
@@ -82,6 +83,9 @@
         }
         .btn-secondary {
             background-color: #0aea37;
+        }
+        .btn-cancel {
+            background-color: #dc3545;
         }
     </style>
 </head>
@@ -131,6 +135,7 @@
                     <th>주문 날짜</th>
                     <th>상태</th>
                     <th>총 금액</th>
+                    <th>주문 취소</th>
                 </tr>
             </thead>
             <tbody>
@@ -140,6 +145,7 @@
                     <td>2024-05-01</td>
                     <td>배송 중</td>
                     <td>₩50,000</td>
+                    <td><button class="btn btn-cancel" onclick="cancelOrder(123456)">주문 취소</button></td>
                 </tr>
                 <tr>
                     <td>123457</td>
@@ -147,6 +153,7 @@
                     <td>2024-05-15</td>
                     <td>배송 완료</td>
                     <td>₩30,000</td>
+                    <td><button class="btn btn-cancel" onclick="cancelOrder(123457)">주문 취소</button></td>
                 </tr>
             </tbody>
         </table>
@@ -187,9 +194,15 @@
         document.querySelector('.btn[onclick="editInfo()"]').style.display = 'inline-block';
         document.querySelector('.btn[onclick="saveInfo()"]').style.display = 'none';
         alert('사용자 정보가 저장되었습니다.');
-        // *** 서버 저장 코드 필요합니다. 
-      
-      }
+        // *** 서버 저장 코드 필요합니다. ***
+    }
+
+    function cancelOrder(orderId) {
+        if (confirm('정말로 주문을 취소하시겠습니까?')) {
+            // **** 주문 취소 백엔드 코드 연동
+            alert('주문 번호 ' + orderId + '이(가) 취소되었습니다.');
+        }
+    }
 </script>
 
 </body>
