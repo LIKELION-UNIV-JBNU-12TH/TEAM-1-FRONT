@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mypage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            background-color: #eee;
+            border: 1px solid #ddd;
+        }
+        .tab.active {
+            background-color: #fff;
+            border-bottom: none;
+        }
+        .content {
+            border: 1px solid #ddd;
+            padding: 20px;
+            background-color: #fff;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .btn-secondary {
+            background-color: #0aea37;
+        }
+        .btn-cancel {
+            background-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>My Page</h1>
+    </div>
+
+    <div class="tabs">
+        <div class="tab active" onclick="showTab('user-info')">사용자 정보</div>
+        <div class="tab" onclick="showTab('order-info')">주문 내역</div>
+    </div>
+
+    <div id="user-info" class="content">
+        <h2>사용자 정보</h2>
+        <form id="userForm">
+            <div class="form-group">
+                <label for="name">이름</label>
+                <input type="text" id="name" value="홍길동" disabled>
+            </div>
+            <div class="form-group">
+                <label for="email">이메일</label>
+                <input type="email" id="email" value="hong@example.com" disabled>
+            </div>
+            <div class="form-group">
+                <label for="phone">전화번호</label>
+                <input type="tel" id="phone" value="010-1234-5678" disabled>
+            </div>
+            <div class="form-group">
+                <label for="address">주소</label>
+                <textarea id="address" disabled>전라북도 전주시 덕진구 백제대로 567</textarea>
+            </div>
+            <button type="button" class="btn" onclick="editInfo()">수정하기</button>
+            <button type="button" class="btn btn-secondary" onclick="saveInfo()" style="display: none;">수정완료</button>
+        </form>
+    </div>
+
+    <div id="order-info" class="content" style="display: none;">
+        <h2>주문 내역</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>주문 번호</th>
+                    <th>상품명</th>
+                    <th>주문 날짜</th>
+                    <th>상태</th>
+                    <th>총 금액</th>
+                    <th>주문 취소</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>123456</td>
+                    <td>상품 A</td>
+                    <td>2024-05-01</td>
+                    <td>배송 중</td>
+                    <td>₩50,000</td>
+                    <td><button class="btn btn-cancel" onclick="cancelOrder(123456)">주문 취소</button></td>
+                </tr>
+                <tr>
+                    <td>123457</td>
+                    <td>상품 B</td>
+                    <td>2024-05-15</td>
+                    <td>배송 완료</td>
+                    <td>₩30,000</td>
+                    <td><button class="btn btn-cancel" onclick="cancelOrder(123457)">주문 취소</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function showTab(tabId) {
+        var tabs = document.querySelectorAll('.tab');
+        var contents = document.querySelectorAll('.content');
+
+        tabs.forEach(function(tab) {
+            tab.classList.remove('active');
+        });
+
+        contents.forEach(function(content) {
+            content.style.display = 'none';
+        });
+
+        document.querySelector('.tab[onclick="showTab(\'' + tabId + '\')"]').classList.add('active');
+        document.getElementById(tabId).style.display = 'block';
+    }
+
+    function editInfo() {
+        var formElements = document.querySelectorAll('#userForm input, #userForm textarea');
+        formElements.forEach(function(element) {
+            element.disabled = false;
+        });
+        document.querySelector('.btn[onclick="editInfo()"]').style.display = 'none';
+        document.querySelector('.btn[onclick="saveInfo()"]').style.display = 'inline-block';
+    }
+
+    function saveInfo() {
+        var formElements = document.querySelectorAll('#userForm input, #userForm textarea');
+        formElements.forEach(function(element) {
+            element.disabled = true;
+        });
+        document.querySelector('.btn[onclick="editInfo()"]').style.display = 'inline-block';
+        document.querySelector('.btn[onclick="saveInfo()"]').style.display = 'none';
+        alert('사용자 정보가 저장되었습니다.');
+        // *** 서버 저장 코드 필요합니다. ***
+    }
+
+    function cancelOrder(orderId) {
+        if (confirm('정말로 주문을 취소하시겠습니까?')) {
+            // **** 주문 취소 백엔드 코드 연동
+            alert('주문 번호 ' + orderId + '이(가) 취소되었습니다.');
+        }
+    }
+</script>
+
+</body>
+</html>
